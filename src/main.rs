@@ -160,15 +160,23 @@ fn main() {
     //horizontalLayout_MainPanels.add_child(ResizedView::with_fixed_size((0, 0), DummyView));
     horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("B title")));
 
-    let mut horizontalLayout_Functions = LinearLayout::new(Orientation::Horizontal);
-    horizontalLayout_Functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F3 View ]").h_align(HAlign::Center)));
+    let mut horizontal_layout_functions = LinearLayout::new(Orientation::Horizontal);
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F3 View ]").h_align(HAlign::Center)));
     siv.add_global_callback(cursive::event::Key::F3, fk::f3_view_file);
-    horizontalLayout_Functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F4 View ]").h_align(HAlign::Center)));
-    
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F4 Edit ]").h_align(HAlign::Center)));
+    siv.add_global_callback(cursive::event::Key::F4, fk::f4_edit_file);
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F5 Copy ]").h_align(HAlign::Center)));
+    siv.add_global_callback(cursive::event::Key::F4, fk::f5_copy);
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F6 Move ]").h_align(HAlign::Center)));
+    siv.add_global_callback(cursive::event::Key::F4, fk::f6_move);
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F7 Move ]").h_align(HAlign::Center)));
+    siv.add_global_callback(cursive::event::Key::F4, fk::f7_mkdir);
+    horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F8 Move ]").h_align(HAlign::Center)));
+    siv.add_global_callback(cursive::event::Key::F4, fk::f8_delete);
 
     let mut verticalLayout_MainPanels_Functions = LinearLayout::new(Orientation::Vertical);
     verticalLayout_MainPanels_Functions.add_child(horizontalLayout_MainPanels);
-    verticalLayout_MainPanels_Functions.add_child(horizontalLayout_Functions);
+    verticalLayout_MainPanels_Functions.add_child(horizontal_layout_functions);
     //layout.required_size(cursive::XY{x:100,y:1});
     //siv.add_fullscreen_layer(ResizedView::with_full_screen(Dialog::around(layout).title("Table View Demo")));
     siv.add_fullscreen_layer(ResizedView::with_full_screen(verticalLayout_MainPanels_Functions));
