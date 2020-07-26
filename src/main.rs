@@ -60,8 +60,8 @@ impl TableViewItem<BasicColumn> for Foo {
         match column 
         {
             BasicColumn::Name => self.name.cmp(&other.name),
-            BasicColumn::Count => self.count.cmp(&other.count),
-            BasicColumn::Rate => self.rate.cmp(&other.rate),
+            BasicColumn::Count => self.count.cmp(&other.count),//todo most likely wrong compare
+            BasicColumn::Rate => self.rate.cmp(&other.rate),//todo most likely wrong compare
         }
     }
 }
