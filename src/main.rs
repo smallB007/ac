@@ -53,7 +53,7 @@ impl TableViewItem<BasicColumn> for Foo {
     where
         Self: Sized,
     {
-        if other.up_dir
+        if self.up_dir || other.up_dir
         {
             return Ordering::Greater;
         }
