@@ -10,7 +10,7 @@ edition = "2018"
 cursive_core = { version = "0.1", default-features = false }
 
 #[dev-dependencies]
-cursive = "0.15"
+cursive = "^0.15"
 cursive_table_view = {git = "https://github.com/BonsaiDen/cursive_table_view"}
 chrono = "^0"
 cursive_buffered_backend = { git = "https://github.com/agavrilov/cursive_buffered_backend"}

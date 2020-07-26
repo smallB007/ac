@@ -13,7 +13,7 @@ use std::cmp::Ordering;
 use cursive::align::HAlign;
 use cursive::direction::Orientation;
 use cursive::traits::*;
-use cursive::views::{Dialog, DummyView, LinearLayout, ResizedView};
+use cursive::views::{Dialog, DummyView, LinearLayout, ResizedView,TextView, SelectView};
 use cursive::Cursive;
 //use rand::Rng;
 
@@ -143,37 +143,44 @@ siv.add_global_callback(cursive::event::Key::Esc, |s| s.select_menubar());
 siv.set_autohide_menu(false);
 //
 }
-
+fn Enter_Fn(siv: &mut cursive::Cursive, row: usize,index: usize)
+{
+    siv.add_layer(Dialog::around(TextView::new(siv.active_screen().to_string())));
+}
 mod function_keys;
 use function_keys as fk;
 fn main() {
 
-    let mut siv = cursive::default();
-    create_menu(&mut siv);
+    let mut app = cursive::default();
+    create_menu(&mut app);
     let mut horizontalLayout_MainPanels = LinearLayout::new(Orientation::Horizontal);
-    horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("A title")));
-    horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("B title")));
-
+    for i in 0..2
+    {
+        let mut panel_left = create_table();
+        panel_left.set_on_submit(Enter_Fn);
+        
+        horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(panel_left).title(format!("a {}",i))));
+    }
     let mut horizontal_layout_functions = LinearLayout::new(Orientation::Horizontal);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F3 View ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F3, fk::f3_view_file);
+    app.add_global_callback(cursive::event::Key::F3, fk::f3_view_file);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F4 Edit ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F4, fk::f4_edit_file);
+    app.add_global_callback(cursive::event::Key::F4, fk::f4_edit_file);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F5 Copy ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F4, fk::f5_copy);
+    app.add_global_callback(cursive::event::Key::F4, fk::f5_copy);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F6 Move ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F4, fk::f6_move);
+    app.add_global_callback(cursive::event::Key::F4, fk::f6_move);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F7 Move ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F4, fk::f7_mkdir);
+    app.add_global_callback(cursive::event::Key::F4, fk::f7_mkdir);
     horizontal_layout_functions.add_child(ResizedView::with_full_width( cursive::views::TextView::new("[ F8 Move ]").h_align(HAlign::Center)));
-    siv.add_global_callback(cursive::event::Key::F4, fk::f8_delete);
+    app.add_global_callback(cursive::event::Key::F4, fk::f8_delete);
 
     let mut verticalLayout_MainPanels_Functions = LinearLayout::new(Orientation::Vertical);
     verticalLayout_MainPanels_Functions.add_child(horizontalLayout_MainPanels);
     verticalLayout_MainPanels_Functions.add_child(horizontal_layout_functions);
-    siv.add_fullscreen_layer(ResizedView::with_full_screen(verticalLayout_MainPanels_Functions));
+    app.add_fullscreen_layer(ResizedView::with_full_screen(verticalLayout_MainPanels_Functions));
    
-    siv.run();
+    app.run();
 }
 use std::time::{Duration, SystemTime};
 use chrono::{DateTime, TimeZone, NaiveDateTime, Utc};
