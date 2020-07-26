@@ -91,7 +91,6 @@ fn visit_dirs_original(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {
 
 
 
-// one possible implementation of walking a directory only visiting files
 fn visit_dirs(dir: &Path, items: &mut Vec<DirEntry>) -> io::Result<()> 
 {
     if dir.is_dir() {
@@ -100,17 +99,7 @@ fn visit_dirs(dir: &Path, items: &mut Vec<DirEntry>) -> io::Result<()>
             
             let entry = entry?;
             
-          //  let path = entry.path();
-          //  println!("{:?}",path);
-            
             items.push(entry);
-            /*
-            if path.is_dir() {
-                visit_dirs(&path, cb)?;
-            } else {
-                cb(&entry);
-            }
-            */
         }
     }
     Ok(())
@@ -159,14 +148,10 @@ mod function_keys;
 use function_keys as fk;
 fn main() {
 
-    //let mut items: Vec<DirEntry> = Vec::new();
-    //visit_dirs(Path::new("."), &mut items);
-    
     let mut siv = cursive::default();
     create_menu(&mut siv);
     let mut horizontalLayout_MainPanels = LinearLayout::new(Orientation::Horizontal);
     horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("A title")));
-    //horizontalLayout_MainPanels.add_child(ResizedView::with_fixed_size((0, 0), DummyView));
     horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("B title")));
 
     let mut horizontal_layout_functions = LinearLayout::new(Orientation::Horizontal);
@@ -186,11 +171,7 @@ fn main() {
     let mut verticalLayout_MainPanels_Functions = LinearLayout::new(Orientation::Vertical);
     verticalLayout_MainPanels_Functions.add_child(horizontalLayout_MainPanels);
     verticalLayout_MainPanels_Functions.add_child(horizontal_layout_functions);
-    //layout.required_size(cursive::XY{x:100,y:1});
-    //siv.add_fullscreen_layer(ResizedView::with_full_screen(Dialog::around(layout).title("Table View Demo")));
     siv.add_fullscreen_layer(ResizedView::with_full_screen(verticalLayout_MainPanels_Functions));
-    //siv.add_layer(ResizedView::with_full_screen;
-    //siv.add_layer(layout);
    
     siv.run();
 }
@@ -218,7 +199,6 @@ fn system_time_to_date_time(t: SystemTime)
 
 fn create_table() -> TableView<Foo, BasicColumn> {
     let mut items = Vec::new();
-    //let mut rng = rand::thread_rng();
     let mut dir_entries: Vec<DirEntry> = Vec::new();
     match visit_dirs(Path::new("."), &mut dir_entries)
     {
@@ -247,15 +227,7 @@ fn create_table() -> TableView<Foo, BasicColumn> {
                 rate: format!("{}", date_time.to_string()),
         });
     }
-    /*
-    for i in 0..50 {
-        items.push(Foo {
-            name: format!("Name {}", i),
-            count: rng.gen_range(0, 255),
-            rate: rng.gen_range(0, 255),
-        });
-    }
-    */
+   
     TableView::<Foo, BasicColumn>::new()
         .column(BasicColumn::Name, "Name", |c| c.width_percent(40))
         .column(BasicColumn::Count, "Size", |c| c.align(HAlign::Center))
@@ -265,5 +237,4 @@ fn create_table() -> TableView<Foo, BasicColumn> {
                 .width_percent(40)
         })
         .items(items)
-        //.items(dir_entries)
 }
