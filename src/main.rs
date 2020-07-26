@@ -35,7 +35,7 @@ struct Foo
  {
     up_dir: bool,
     name: String,
-    count: u64,
+    count: String,
     rate: String,
 }
 
@@ -230,8 +230,8 @@ fn create_table() -> TableView<Foo, BasicColumn> {
         {
         up_dir: true,
         name:  String::from(".."),
-        count: 0,
-        rate: String::from(".."),
+        count: String::from("UP DIR"),
+        rate: String::from(""),
     });
     for dir_entry in dir_entries.iter()
     {
@@ -244,7 +244,7 @@ fn create_table() -> TableView<Foo, BasicColumn> {
              {
                  up_dir: false,
             name: format!("{:?}", dir_entry.path()),
-            count: file_size,
+            count: file_size.to_string(),
             rate: format!("{:?}", date_time),
         });
     }
