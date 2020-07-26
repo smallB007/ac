@@ -15,4 +15,3 @@ rand = "0.7"
 cursive_table_view = {git = "https://github.com/BonsaiDen/cursive_table_view"}
 chrono = "^0"
 cursive_buffered_backend = { git = "https://github.com/agavrilov/cursive_buffered_backend"}
-termion = "*"

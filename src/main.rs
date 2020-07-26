@@ -157,7 +157,6 @@ siv.set_autohide_menu(false);
 
 mod function_keys;
 use function_keys as fk;
-use termion::*;
 fn main() {
 
     //let mut items: Vec<DirEntry> = Vec::new();
