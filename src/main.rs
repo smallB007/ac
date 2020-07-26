@@ -23,14 +23,17 @@ use cursive::menu::*;
 use cursive_table_view::{TableView, TableViewItem};
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
-enum BasicColumn {
+enum BasicColumn 
+{
     Name,
     Count,
     Rate,
 }
 
 #[derive(Clone, Debug)]
-struct Foo {
+struct Foo
+ {
+    up_dir: bool,
     name: String,
     count: u64,
     rate: String,
@@ -38,7 +41,8 @@ struct Foo {
 
 impl TableViewItem<BasicColumn> for Foo {
     fn to_column(&self, column: BasicColumn) -> String {
-        match column {
+        match column 
+        {
             BasicColumn::Name => self.name.to_string(),
             BasicColumn::Count => format!("{}", self.count),
             BasicColumn::Rate => format!("{}", self.rate),
@@ -49,7 +53,12 @@ impl TableViewItem<BasicColumn> for Foo {
     where
         Self: Sized,
     {
-        match column {
+        if other.up_dir
+        {
+            return Ordering::Greater;
+        }
+        match column 
+        {
             BasicColumn::Name => self.name.cmp(&other.name),
             BasicColumn::Count => self.count.cmp(&other.count),
             BasicColumn::Rate => self.rate.cmp(&other.rate),
@@ -148,12 +157,13 @@ siv.set_autohide_menu(false);
 
 mod function_keys;
 use function_keys as fk;
+use termion::*;
 fn main() {
 
     //let mut items: Vec<DirEntry> = Vec::new();
     //visit_dirs(Path::new("."), &mut items);
-    let mut siv = Cursive::default();
-
+    
+    let mut siv = cursive::default();
     create_menu(&mut siv);
     let mut horizontalLayout_MainPanels = LinearLayout::new(Orientation::Horizontal);
     horizontalLayout_MainPanels.add_child(ResizedView::with_full_screen(Dialog::around(create_table()).title("A title")));
@@ -216,7 +226,9 @@ fn create_table() -> TableView<Foo, BasicColumn> {
         Ok(o) => println!(),
         Err(e) => println!()
     }
-    items.push(Foo {
+    items.push(Foo 
+        {
+        up_dir: true,
         name:  String::from(".."),
         count: 0,
         rate: String::from(".."),
@@ -228,7 +240,9 @@ fn create_table() -> TableView<Foo, BasicColumn> {
         let file_size = res.len();
         let last_modified = res.modified();
         let date_time = system_time_to_date_time(last_modified.unwrap());
-        items.push(Foo {
+        items.push(Foo
+             {
+                 up_dir: false,
             name: format!("{:?}", dir_entry.path()),
             count: file_size,
             rate: format!("{:?}", date_time),
