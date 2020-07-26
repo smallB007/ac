@@ -242,10 +242,10 @@ fn create_table() -> TableView<Foo, BasicColumn> {
         let date_time = system_time_to_date_time(last_modified.unwrap());
         items.push(Foo
              {
-                 up_dir: false,
-            name: format!("{:?}", dir_entry.path()),
-            count: file_size.to_string(),
-            rate: format!("{:?}", date_time),
+                up_dir: false,
+                name: format!("{}", dir_entry.path().to_str().unwrap()),
+                count: file_size.to_string(),
+                rate: format!("{}", date_time.to_string()),
         });
     }
     /*
